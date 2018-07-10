@@ -1,5 +1,5 @@
 // @flow
-import { observable, action, computed, IObservableArray, runInAction, toJS } from 'mobx'
+import { observable, action, computed, IObservableArray, runInAction } from 'mobx'
 import Model from './Model'
 import {
   isEmpty,
@@ -53,7 +53,7 @@ export default class Collection<T: Model> {
    * of the collection
    */
   toJS () {
-    return toJS(this.models)
+    return this.models.map(({ attributes }) => attributes.toJSON());
   }
 
   /**
@@ -118,7 +118,7 @@ export default class Collection<T: Model> {
    */
   filter (query: { [key: string]: any } = {}): Array<T> {
     return filter(this.models, ({ attributes }) => {
-      return isMatch(attributes.toJS(), query)
+      return isMatch(attributes.toJSON(), query)
     })
   }
 
@@ -127,7 +127,7 @@ export default class Collection<T: Model> {
    */
   find (query: { [key: string]: mixed }): ?T {
     return find(this.models, ({ attributes }) => {
-      return isMatch(attributes.toJS(), query)
+      return isMatch(attributes.toJSON(), query)
     })
   }
 

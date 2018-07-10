@@ -338,7 +338,7 @@ export default class Model {
     } catch (body) {
       runInAction('destroy-fail', () => {
         if (optimistic && this.collection) {
-          this.collection.add([this.attributes.toJS()])
+          this.collection.add([this.attributes.toJSON()])
         }
         this.error = new ErrorObject(label, body)
         this.request = null
